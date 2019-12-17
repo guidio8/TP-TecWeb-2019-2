@@ -150,7 +150,7 @@ export class Usuario {
   avaliacao: number;
 
   constructor() {
-    this.idUsuario = 1;
+    this.idUsuario = 0;
     this.nome = '';
     this.senha = '';
     this.avaliacao = 0;

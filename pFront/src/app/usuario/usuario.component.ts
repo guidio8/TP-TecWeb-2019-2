@@ -73,7 +73,7 @@ export class User {
   avaliacao: number;
 
   constructor() {
-    this.idUsuario = 4;
+    this.idUsuario = 1;
     this.nome = '';
     this.senha = '';
     this.avaliacao = 0;
