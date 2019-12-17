@@ -1,0 +1,167 @@
+
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1">Cadastrar</button>
+    <clr-tab-content id="content1" *clrIfActive="true">
+      <h1>Cadastrar Jogo</h1>
+      <div class="content-area">
+        <form clrStepper [formGroup]="form" (ngSubmit)="submit()">
+          <clr-stepper-panel formGroupName="jogos">
+            <clr-step-title>Informações sobre o Jogo</clr-step-title>
+            <clr-step-description>Elder me dá total</clr-step-description>
+            <clr-step-content *clrIfExpanded>
+              <clr-input-container>
+                <label>Nome do Jogo</label>
+                <input clrInput formControlName="nomejogo" [(ngModel)]="novoJogo.nomejogo"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <clr-input-container>
+                <label>Nome do Dono</label>
+                <input clrInput formControlName="dono" [(ngModel)]="novoJogo.dono"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <clr-input-container>
+                <label>Horário do Jogo</label>
+                <input clrInput formControlName="horario" [(ngModel)]="novoJogo.horario"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <button clrStepButton="next">next</button>
+            </clr-step-content>
+          </clr-stepper-panel>
+
+          <clr-stepper-panel formGroupName="detalhes">
+            <clr-step-title>Detalhes do Jogo</clr-step-title>
+            <clr-step-description></clr-step-description>
+            <clr-step-content *clrIfExpanded>
+              <clr-date-container>
+                <input type="date"formControlName="data_jogo" clrDate name="demo" [(ngModel)]="novoDetalhe.data_jogo">
+              </clr-date-container>
+
+              <clr-input-container>
+                <label>Conhecimento Necessário</label>
+                <input clrInput formControlName="conhecimento_necessario" [(ngModel)]="novoDetalhe.conhecimento_necessario"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <clr-input-container>
+                <label>Local de Encontro</label>
+                <input clrInput formControlName="local_encontro" [(ngModel)]="novoDetalhe.local_encontro"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <clr-input-container>
+                <label>Duração em Horas</label>
+                <input clrInput formControlName="duracao_horas" [(ngModel)]="novoDetalhe.duracao_horas"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <clr-input-container>
+                <label>Quantidade de Jogadores Desejada</label>
+                <input clrInput formControlName="qtdPlayers" [(ngModel)]="novoDetalhe.qtdPlayers"/>
+                <clr-control-error *clrIfError="'required'">First Name Required</clr-control-error>
+              </clr-input-container>
+
+              <button clrStepButton="submit">submit</button>
+            </clr-step-content>
+          </clr-stepper-panel>
+        </form>
+        <button class="btn btn-primary" routerLink="/usuario" routerLinkActive="active" *ngIf="botaovalido" (click)="cadastrarNovoJogo()">Cadastrar Novo Jogo</button>
+      </div>
+    </clr-tab-content>
+  </clr-tab>
+
+
+  <clr-tab>
+    <button clrTabLink>Procurar</button>
+    <clr-tab-content *clrIfActive>
+      <h1>Procurar Jogo</h1>
+
+        <div class="clr-row">
+          <div class="clr-col-lg-4 clr-col-12">
+            <div class="card">
+              <div class="card-block">
+                <h3 class="card-title">Procurar Pela Data</h3>
+                    <form clrForm>
+                      <clr-input-container>
+                        <label>Data do Jogo</label>
+                        <input clrInput [(ngModel)]="pesquisaData" name="data"/>
+                      </clr-input-container>
+                    </form>
+              </div>
+              <div class="card-footer">
+                <button (click)="buscaData()" class="btn btn-sm btn-link">Pesquisar</button>
+              </div>
+            </div>
+          </div>
+          <div class="clr-col-lg-4 clr-col-12">
+            <div class="card">
+              <div class="card-block">
+                <h3 class="card-title">Procurar pelo Nome</h3>
+
+                    <form clrForm>
+                      <clr-input-container>
+                        <label>Nome do Jogo</label>
+                        <input clrInput [(ngModel)]="pesquisaNome" name="nomeJogo"/>
+
+                      </clr-input-container>
+                    </form>
+
+              </div>
+              <div class="card-footer">
+                <button (click)="buscaPartida()" class="btn btn-sm btn-link">Pesquisar</button>
+              </div>
+            </div>
+          </div>
+          <div class="clr-col-lg-4 clr-col-12">
+            <img src="assets/img/card.png" style="max-width:50%; height:auto;  display: block;  margin-left: auto;   margin-right: auto;  width: 60%;" alt="image">
+          </div>
+
+          <div class="clr-col-lg-8 clr-col-12">
+
+            <div *ngIf="activePartida">
+              <p>Busca pelo Nome</p>
+              <clr-datagrid [(clrDgSelected)]="selected">
+                <clr-dg-column>Nome do Jogo</clr-dg-column>
+                <clr-dg-column>Data do Jogo</clr-dg-column>
+                <clr-dg-column>Quantidade de Jogadores</clr-dg-column>
+                <clr-dg-column>Local</clr-dg-column>
+                <clr-dg-row *clrDgItems="let partida of partidas" [clrDgItem]="partida">
+                  <clr-dg-cell>{{setnome}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.data_jogo}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.qtdPlayers}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.local_encontro}}</clr-dg-cell>
+                </clr-dg-row>
+                <-- ... -->
+              </clr-datagrid>
+              <button (click)="join()" class="btn btn-success btn-sm">Entrar nos Jogos</button>
+              Selected users: <span *ngFor="let partida of selected">{{partida.iddetalhes}},</span>
+            </div>
+
+            <div *ngIf="activeData">
+              <p>Busca pela Data</p>
+              <clr-datagrid [(clrDgSelected)]="selected">
+                <clr-dg-column>Id do Jogo</clr-dg-column>
+                <clr-dg-column>Data do Jogo</clr-dg-column>
+                <clr-dg-column>Quantidade de Jogadores</clr-dg-column>
+                <clr-dg-column>Local</clr-dg-column>
+                <clr-dg-row *clrDgItems="let partida of partidas" [clrDgItem]="partida">
+                  <clr-dg-cell>{{partida.iddetalhes}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.data_jogo}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.qtdPlayers}}</clr-dg-cell>
+                  <clr-dg-cell>{{partida.local_encontro}}</clr-dg-cell>
+                </clr-dg-row>
+                <-- ... -->
+              </clr-datagrid>
+              <button (click)="join()" class="btn btn-success btn-sm">Entrar nos Jogos</button>
+              Selected users: <span *ngFor="let partida of selected">{{partida.iddetalhes}},</span>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
